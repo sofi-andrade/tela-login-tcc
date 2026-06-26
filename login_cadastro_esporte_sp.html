@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+ 
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); background: #18181d;}
+
+
+nav {
+  background: #1a1a2a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 56px;
+  gap: 12px;
+}
+
+
+.nav-center {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+
+.nav-center a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.search-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1.5px solid #ccc;
+  border-radius: 20px;
+  padding: 5px 12px;
+  color: #ccc;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-cadastro {
+  background: #9333ea;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 7px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+.hamburger span { width: 22px; height: 2px; background: #fff; border-radius: 2px; display: block; }
+
+.app { display: flex; flex-direction: column; min-height: 580px; }
+
+.tabs { display: flex; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 1.5rem; }
+.tab { flex: 1; padding: 10px; font-size: 14px; font-weight: 500; text-align: center; cursor: pointer; color: var(--color-text-secondary); border-bottom: 2px solid transparent; background: none; border-top: none; border-left: none; border-right: none; transition: all 0.15s; }
+.tab.active { color: #6a00ce; border-bottom-color: #9333ea;; }
+
+.forms-wrap { display: flex; gap: 1.5rem; }
+
+.panel { flex: 1; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; }
+
+.panel-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.avatar-user { background: #E1F5EE; color: #1D9E75; }
+.avatar-admin { background: #FAEEDA; color: #BA7517; }
+.panel-title { font-size: 15px; font-weight: 500; color: rgb(142, 134, 207); }
+.panel-sub { font-size: 12px; color: rgb(175, 174, 187); }
+
+.field { margin-bottom: 12px; }
+.field label { display: block; font-size: 12px; color: rgb(142, 134, 207); margin-bottom: 4px; }
+.field input { width: 100%; padding: 8px 10px; font-size: 13px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-secondary); color: rgb(238, 238, 238);; outline: none; }
+.field input:focus { border-color: #1D9E75; box-shadow: 0 0 0 2px #E1F5EE; }
+.field input.admin-focus:focus { border-color: #BA7517; box-shadow: 0 0 0 2px #FAEEDA; }
+
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.btn { width: 100%; padding: 9px; font-size: 13px; font-weight: 500; border-radius: var(--border-radius-md); border: none; cursor: pointer; margin-top: 4px; transition: opacity 0.15s; }
+.btn:hover { opacity: 0.88; }
+.btn-user { background: #1e2d50; color: #fff; }
+.btn-admin { background: #1e2d50; color: #fff; }
+
+.divider { display: flex; align-items: center; gap: 8px; margin: 12px 0; }
+.divider span { font-size: 11px; color: var(--color-text-tertiary); white-space: nowrap; }
+.divider::before, .divider::after { content: ''; flex: 1; height: 0.5px; background: var(--color-border-tertiary); }
+
+.link-row { text-align: center; font-size: 12px; color: #ececec;; }
+.link-row a { color: rgb(142, 134, 207); cursor: pointer; text-decoration: none; }
+.link-row.admin a { color: rgb(142, 134, 207); }
+
+.badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: var(--border-radius-md); margin-bottom: 8px; }
+.badge-user { background: #E1F5EE; color: #5b7a83; }
+.badge-admin { background: #FAEEDA; color: #b5a38c; }
+
+.msg { font-size: 12px; padding: 8px 10px; border-radius: var(--border-radius-md); margin-top: 8px; display: none; }
+.msg.show { display: block; }
+.msg-ok { background: #E1F5EE; color: #0F6E56; }
+.msg-err { background: #FCEBEB; color: #A32D2D; }
+
+
+</style>
+</head>
+<body>
+
+
+<nav>
+  <div class="logo"  >
+   <img src="" alt="" width="190px" >
+  </div>
+
+  <div class="nav-center">
+    <a href="#">Inicio</a>
+    <a href="#">Notícias</a>
+    <a href="#">Locais</a>
+  </div>
+
+  <div class="nav-right">
+    <button class="search-btn">
+      <span>Buscar</span>
+      <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+      </svg>
+    </button>
+    <a href="login_cadastro_esporte_sp.html"><button class="btn-cadastro">cadastro</button></a>
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="app">
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('login')"><i class="ti ti-login" aria-hidden="true"></i> Entrar</button>
+  <button class="tab" onclick="showTab('cadastro')"><i class="ti ti-user-plus" aria-hidden="true"></i> Cadastrar</button>
+</div>
+
+<div id="tab-login">
+  <div class="forms-wrap">
+    <div class="panel">
+      <div class="panel-header">
+        <div class="avatar avatar-user"><i class="ti ti-user" aria-hidden="true"></i></div>
+        <div>
+          <div class="panel-title">Login — Usuário</div>
+          <div class="panel-sub">Acesse sua conta</div>
+        </div>
+      </div>
+      
+      <div class="field"><label>Email</label><input type="email" placeholder="joao@email.com" id="lu-email"></div>
+      <div class="field"><label>Senha</label><input type="password" placeholder="••••••" id="lu-senha"></div>
+      <button class="btn btn-user" onclick="simularLogin('usuario')">Entrar como usuário</button>
+      <div class="msg" id="msg-lu"></div>
+      <div class="divider"><span>ou</span></div>
+      <div class="link-row">Não tem conta? <a onclick="showTab('cadastro')">Cadastre-se</a></div>
+    </div>
+
+    
+  </div>
+</div>
+
+<div id="tab-cadastro" style="display:none">
+  <div class="forms-wrap">
+    <div class="panel">
+      <div class="panel-header">
+        <div class="avatar avatar-user"><i class="ti ti-user-plus" aria-hidden="true"></i></div>
+        <div>
+          <div class="panel-title">Cadastro — Usuário</div>
+          <div class="panel-sub">Crie sua conta gratuita</div>
+        </div>
+      </div>
+     
+      <div class="field"><label>Nome completo *</label><input type="text" placeholder="João Silva" id="cu-nome"></div>
+      <div class="field"><label>Email *</label><input type="email" placeholder="joao@email.com" id="cu-email"></div>
+      <div class="field"><label>CPF *</label><input type="text" placeholder="123.456.789-00" id="cu-cpf"></div>
+      <div class="row2">
+        <div class="field"><label>Telefone</label><input type="text" placeholder="(11) 98888-0001"></div>
+        <div class="field"><label>Cidade</label><input type="text" placeholder="São Paulo"></div>
+      </div>
+      <div class="field"><label>Data de Nascimento</label><input type="date" id="cu-nasc"></div>
+      <div class="field"><label>Senha *</label><input type="password" placeholder="mínimo 6 caracteres" id="cu-senha"></div>
+      <button class="btn btn-user" onclick="simularCadastro('usuario')">Criar conta</button>
+      <div class="msg" id="msg-cu"></div>
+    </div>
+
+    
+  </div>
+</div>
+
+</div>
+</body>
+
+<script>
+function showTab(tab) {
+  document.getElementById('tab-login').style.display = tab === 'login' ? '' : 'none';
+  document.getElementById('tab-cadastro').style.display = tab === 'cadastro' ? '' : 'none';
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', (tab === 'login' && i === 0) || (tab === 'cadastro' && i === 1));
+  });
+}
+
+</script>
+</html>
